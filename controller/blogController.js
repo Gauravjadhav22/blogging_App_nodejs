@@ -7,6 +7,7 @@ const createBlog = async (req, res) => {
 
     const { content, } = req.body
     req.body.user = req.user.userId;
+    req.body.username = req.user.username;
     if (!content) {
         return res.status(StatusCodes.BAD_REQUEST).json({ "msg": "please enter content .." })
 

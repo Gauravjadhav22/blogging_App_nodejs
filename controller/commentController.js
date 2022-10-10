@@ -8,7 +8,7 @@ const getAllComments = async (req, res) => {
 
 
     try {
-        const comments = await Comment.find({ blog: id }).sort({ createdAt: -1 })
+        const comments = await Comment.find({ blog: id }).sort({ createdAt: 1 })
         res.status(StatusCodes.OK).json(comments)
     } catch (error) {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ "msg": error.message })
