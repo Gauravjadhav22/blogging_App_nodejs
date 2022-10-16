@@ -131,6 +131,7 @@ const likeAndDislike = async (req, res) => {
 
     const { like, dislike } = req.body
     const userId = req.user.userId
+
     try {
         const response = await Blog.findOne({ _id: id })
 
@@ -138,21 +139,20 @@ const likeAndDislike = async (req, res) => {
         let liked = response.liked;
         let disliked = response.disliked;
 
-
         if (like) {
             const usr = liked.find((item) => item.toString() === userId)
             if (usr) {
-                disliked.filter((item) => item.toString() !== userId)
+                liked = liked.filter((item) => item.toString() !== userId);
+                response.disliked = disliked
+                response.liked = liked
+                await response.save()
+
                 return res.sendStatus(201)
             }
 
+            disliked = disliked.filter((item) => item.toString() !== userId);
             liked.push(userId)
-            response.liked = liked
-            await response.save()
 
-            // liked = [userId, ...liked]
-            // console.log(liked);
-            console.log(liked.find((item) => item.toString() === userId), "user is not");
 
         }
 
@@ -160,21 +160,22 @@ const likeAndDislike = async (req, res) => {
             const usr = disliked.find((item) => item.toString() === userId)
             if (usr) {
 
-                liked.filter((item) => item.toString() !== userId)
-
+                disliked.filter((item) => item.toString() !== userId);
+                await response.save()
+                response.disliked = disliked
+                response.liked = liked
                 return res.sendStatus(201)
             }
+            liked = liked.filter((item) => item.toString() !== userId);
             disliked.push(userId)
 
-            // liked = [userId, ...disliked]
-            // console.log(liked);
-            response.disliked = disliked
-            await response.save()
-            console.log(disliked.find((item) => item.toString() === userId), "user is not");
+
 
         }
+        response.disliked = disliked
+        response.liked = liked
 
-
+        await response.save()
 
 
 
