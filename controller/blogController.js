@@ -131,7 +131,6 @@ const likeAndDislike = async (req, res) => {
 
     const { like, dislike } = req.body
     const userId = req.user.userId
-
     try {
         const response = await Blog.findOne({ _id: id })
 
@@ -179,14 +178,15 @@ const likeAndDislike = async (req, res) => {
 
 
 
+        return res.status(201).json({response})
 
 
     } catch (error) {
+        console.log(error);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ 'message': error.message });
     }
 
 
-    return res.sendStatus(201)
 
 }
 
