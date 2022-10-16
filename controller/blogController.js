@@ -141,7 +141,10 @@ const likeAndDislike = async (req, res) => {
 
         if (like) {
             const usr = liked.find((item) => item.toString() === userId)
-            if (usr) return res.sendStatus(201)
+            if (usr) {
+                disliked.filter((item) => item.toString() !== userId)
+                return res.sendStatus(201)
+            }
 
             liked.push(userId)
             response.liked = liked
@@ -155,7 +158,12 @@ const likeAndDislike = async (req, res) => {
 
         else {
             const usr = disliked.find((item) => item.toString() === userId)
-            if (usr) return res.sendStatus(201)
+            if (usr) {
+
+                liked.filter((item) => item.toString() !== userId)
+
+                return res.sendStatus(201)
+            }
             disliked.push(userId)
 
             // liked = [userId, ...disliked]
