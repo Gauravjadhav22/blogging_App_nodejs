@@ -5,7 +5,7 @@ const {
 } = require("../../controller/blogController")
 
 router.route('/').get(getUserBlogs).post(createBlog)
-router.route('/like-dislike/:id').post(likeAndDislike)
+router.route('/like-dislike/:id').patch(likeAndDislike)
 
 router.route('/:id').get(getABlog).patch(updateABlog).delete(deleteBlog)
 
