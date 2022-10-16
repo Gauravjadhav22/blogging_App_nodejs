@@ -123,6 +123,64 @@ const getUserBlogs = async (req, res) => {
 
 
 }
+
+const likeAndDislike = async (req, res) => {
+
+
+    const { id } = req.params
+
+    const { like, dislike } = req.body
+    const userId = req.user.userId
+    try {
+        const response = await Blog.findOne({ _id: id })
+
+
+        let liked = response.liked;
+        let disliked = response.disliked;
+
+
+        if (like) {
+            const usr = liked.find((item) => item.toString() === userId)
+            if (usr) return res.sendStatus(201)
+
+            liked.push(userId)
+            response.liked = liked
+            await response.save()
+
+            // liked = [userId, ...liked]
+            // console.log(liked);
+            console.log(liked.find((item) => item.toString() === userId), "user is not");
+
+        }
+
+        else {
+            const usr = disliked.find((item) => item.toString() === userId)
+            if (usr) return res.sendStatus(201)
+            disliked.push(userId)
+
+            // liked = [userId, ...disliked]
+            // console.log(liked);
+            response.disliked = disliked
+            await response.save()
+            console.log(disliked.find((item) => item.toString() === userId), "user is not");
+
+        }
+
+
+
+
+
+
+
+    } catch (error) {
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ 'message': error.message });
+    }
+
+
+    return res.sendStatus(201)
+
+}
+
 const getAllBlogs = async (req, res) => {
 
 
@@ -130,8 +188,8 @@ const getAllBlogs = async (req, res) => {
     try {
         const blogs = await Blog.find({ draft: false }).sort({ createdAt: -1 })
 
-      
-        
+
+
 
 
 
@@ -151,5 +209,5 @@ const getAllBlogs = async (req, res) => {
 
 
 module.exports = {
-    createBlog, getAllBlogs, deleteBlog, updateABlog, getABlog, getUserBlogs
+    createBlog, getAllBlogs, deleteBlog, updateABlog, getABlog, getUserBlogs, likeAndDislike
 }

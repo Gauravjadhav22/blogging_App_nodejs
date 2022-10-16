@@ -23,21 +23,22 @@ const blogSchema = new mongoose.Schema({
     pictures: {
         type: Array
     }
-
-    , like: {
-        type: Number,
-
-    }
-    , dislike: {
-        type: Number
-    },
-    liked: {
-        type: Boolean,
-    },
-    disliked: {
-        type: Boolean,
-    }
     ,
+
+    liked: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+        required: true
+    }]
+    ,
+    disliked: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+        required: true
+    }]
+    ,
+
+
     user: {
         type: mongoose.Types.ObjectId,
         ref: 'User',

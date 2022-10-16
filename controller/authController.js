@@ -8,13 +8,18 @@ const authController = async (req, res) => {
     const { username, passwd } = req.body
 
     if (!username || !passwd) {
-        return res.status(StatusCodes.BAD_REQUEST).json({ "msg": "username  and password are required" })
+        return res.
+        json({ "msg": "username  and password are required" })
+        // status(StatusCodes.BAD_REQUEST).
     }
 
     //finding user in db
     const foundUser = await User.findOne({ username: username })
     if (!foundUser) {
-        return res.status(StatusCodes.UNAUTHORIZED).json({ "msg": "user does not exists" })
+        
+        return res
+        .json({ "msg": "user does not exists" })
+        // .status(StatusCodes.UNAUTHORIZED)
     }
 
 
@@ -58,7 +63,9 @@ const authController = async (req, res) => {
 
         // Send authorization access token to user
 
-        res.status(StatusCodes.OK).json({ "username": foundUser.username, "fullname": foundUser.fullname, "gmail": foundUser.gmail, accessToken })
+        return res
+        .json({ "username": foundUser.username, "fullname": foundUser.fullname, "gmail": foundUser.gmail, accessToken })
+        // .status(StatusCodes.OK)
 
     }
     else {
