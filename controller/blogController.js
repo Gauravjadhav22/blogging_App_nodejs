@@ -195,17 +195,8 @@ const getAllBlogs = async (req, res) => {
 
 
     try {
-        const blogs = await Blog.find({ draft: false }).sort({ createdAt: -1 })
-
-
-
-
-
-
-
-
+        const blogs = await Blog.find({ draft: false }).populate('user').sort({ createdAt: -1 })
         res.status(StatusCodes.OK).json(blogs)
-
     } catch (error) {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ 'message': error.message });
     }

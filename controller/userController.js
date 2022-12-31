@@ -22,7 +22,7 @@ const findUser = async (req, res) => {
     try {
         const user = await User.findOne({ username: id })
 
-        const blogs = await Blog.find({ user: user._id })
+        const blogs = await Blog.find({ user: user._id }).populate('user').sort({ createdAt: -1 })
         res.status(StatusCodes.OK).json({ "fullname": user.fullname, "username": user.username, "gmail": user.gmail, "picture": user.picture, blogs })
 
     } catch (error) {
@@ -53,4 +53,4 @@ const updateUser = async (req, res) => {
 
 
 
-module.exports = { getUser, updateUser,findUser }
+module.exports = { getUser, updateUser, findUser }
