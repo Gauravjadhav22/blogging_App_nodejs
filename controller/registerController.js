@@ -23,7 +23,7 @@ const registerController = async (req, res) => {
         const result = await User.create({
             fullname: fullname,
             username: username,
-            gmail: gmail?gmail:'',
+            gmail: gmail ? gmail : '',
             passwd: hashedPasswd
         })
         res.status(StatusCodes.CREATED).json({ 'success': `New user ${username} created!` });
